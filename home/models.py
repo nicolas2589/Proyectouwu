@@ -9,7 +9,7 @@ class Cliente(models.Model):
     Cliente_Phone = models.IntegerField()
 
     def __str__(self):
-        return "{}".format(self.Client_Name)
+        return "{}".format(self.Cliente_Nombre)
 
 class Equipo(models.Model):
     Equipo_Marca = models.CharField(max_length=20)

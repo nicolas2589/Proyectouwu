@@ -1,0 +1,39 @@
+{%extends "blank.html"%}
+{% block Header %}Consultar Equipo{% endblock Header %}
+{% block content %}
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Equipo</th>
+            <th>Tecnico</th>
+            <th>Problema</th>
+            <th>Comentarios</th>
+            <th>Inicio</th>
+            <th>Final</th>
+            <th>Solucionado</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for E in object_list %}
+            <tr>
+              <td>{{ S.Soporte_Cliente }}</td>
+              <td>{{ S.Soporte_Equipo }}</td>
+              <td>{{ S.Soporte_Tecnico }}</td>
+              <td>{{ S.Soporte_Problema }}</td>
+              <td>{{ S.Soporte_Comentarios }}</td>
+              <td>{{ S.Soporte_Final }}</td>
+              <td>{{ S.Soporte_Solucionado }}</td>
+              <td>
+                <a type="button" class="btn btn-outline btn-default" href="{% url 'modificarS' S.id %}"><i class="fa fa-edit"></i></a>
+                <a type="button" class="btn btn-outline btn-default" href="{% url 'eliminarS' S.id %}"><i class="fa fa-times"></i></a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,9 @@
+{%extends "blank.html"%}
+{% block Header %}Eliminar Cliente{% endblock Header %}
+{% block content %}
+<form method="post">{% csrf_token %}
+  <p>Esta seguro que desea borrar el cliente "{{ object }}"?</p>
+  <a type="button" class="btn btn-outline btn-default" href="{% url 'verC'%}">Atras</a>
+  <input type="submit" class="btn btn-danger" value="Confirm">
+</form>
+{% endblock content %}

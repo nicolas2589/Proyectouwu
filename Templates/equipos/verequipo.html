@@ -1,0 +1,30 @@
+{%extends "blank.html"%}
+{% block Header %}Consultar Equipo{% endblock Header %}
+{% block content %}
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Marca del equipo</th>
+            <th>Modelo</th>
+            <th>Numero de serie</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for E in object_list %}
+            <tr>
+              <td>{{ E.Equipo_Marca }}</td>
+              <td>{{ E.Equipo_Modelo }}</td>
+              <td>{{ E.Equipo_SN }}</td>
+              <td>
+                <a type="button" class="btn btn-outline btn-default" href="{% url 'modificarE' E.id %}"><i class="fa fa-edit"></i></a>
+                <a type="button" class="btn btn-outline btn-default" href="{% url 'eliminarE' E.id %}"><i class="fa fa-times"></i></a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,35 @@
+{%extends "blank.html"%}
+{% block Header %}Modificar Soporte {% endblock Header %}
+{% block content %}
+{% if form.errors %}
+                 {% for field in form %}
+                   {% for error in field.errors %}
+                     <div class="alert alert-danger">
+                       <li>
+                         {% if field != '__all__' %}
+                             <strong>{{ field.label }}:</strong>
+                         {% endif %}
+                         {{ error }}
+                       </li>
+                     </div>
+                   {% endfor %}
+                 {% endfor %}
+               {% endif %}
+          <!-- <form class="" action="" method="post">
+            {% csrf_token %}
+              <p><label for="id_Cliente_Nombre">Nombre del cliente:</label>
+                <input type="text" name="Cliente_Nombre" value="{{ object.Cliente_Nombre }}" maxlength="20" required="" id="id_Cliente_Nombre"></p>
+              <p><label for="id_Cliente_Phone">Telefono del cliente:</label>
+                <input type="number" name="Client_Phone" value="{{ object.Cliente_Phone }}" required="" id="id_Cliente_Phone"></p>
+              <p><label for="id_Cliente_Email">Cliente Email:</label>
+                <input type="text" name="Cliente_Email" value="{{ object.Cliente_Email }}" maxlength="20" required id="id_Cliente_Email">
+            <a type="button" class="btn btn-outline btn-default" href="{% url 'verC'%}">Atras</a>
+            <button type="submit" class="btn btn-success  btn-default" name="new"><i class="fas fa fa-check fa-sm"></i></button>
+          </form> -->
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+ </form>
+
+{% endblock content %}
