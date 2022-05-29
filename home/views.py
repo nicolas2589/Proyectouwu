@@ -12,9 +12,23 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from django.db import connection
 from django.db.utils import OperationalError
 from .serializer import ClienteSerializer
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
 
-# Create your views here.
+#api de auth usuario
+@api_view(['GET'])
+def login(request):
+    user=request.GET['User']
+    pwd=request.GET['Pwd']
+    user = authenticate(username=user, password=pwd)
+    if user is not None:
+        token=Token.objects.get_or_create(user=user)
+        return Response({'Token':str(token[0])})
+    else:
+        return Response(['Error usuario o contraseña incorrectos'])
 
+# Apis de historial
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def historial_equipo(request,pk):
@@ -50,7 +64,7 @@ def historial_tecnico(request, pk):
     finally:
         cursor.close()
     return Response(res)
-
+#apis para crear
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def crear_cliente(request):
@@ -98,7 +112,7 @@ def crear_soporte(request):
     finally:
         cursor.close()
     return Response(res)
-
+#api para cerrar soporte
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def cerrar_soporte(request,pk):
@@ -111,7 +125,7 @@ def cerrar_soporte(request,pk):
     finally:
         cursor.close()
     return Response(res)
-
+#api para actualizar
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def act_cliente(request,pk):
@@ -129,7 +143,7 @@ def act_cliente(request,pk):
     finally:
         cursor.close()
     return Response(res)
-
+#index
 class Index(LoginRequiredMixin, generic.TemplateView):
     template_name = "ini.html"
     login_url = "login"

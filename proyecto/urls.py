@@ -47,6 +47,7 @@ urlpatterns = [
     path('crear_cliente/', views.crear_cliente, name="cc"),
     path('crear_equipo/', views.crear_equipo, name="ce"),
     path('crear_soporte/', views.crear_soporte, name="cs"),
-    path('cerrar_soporte/<int:pk>', views.cerrar_soporte, name="cs"),
-    path('act_cliente/<int:pk>', views.act_cliente, name="cs"),
+    path('cerrar_soporte/<int:pk>', views.cerrar_soporte, name="csn"),
+    path('act_cliente/<int:pk>', views.act_cliente, name="ac"),
+    path('getlogin/', views.login, name="gl"),
 ]
