@@ -4,7 +4,131 @@ from django.views import generic
 from .form import FormCreateCliente,FormModifCliente,FormCreateEquipo,FormModifEquipo,FormCreateSoporte,FormModifSoporte
 from .models import Cliente, Equipo, Soporte
 from django.urls import reverse_lazy
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from django.db import connection
+from django.db.utils import OperationalError
+from .serializer import ClienteSerializer
+
 # Create your views here.
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def historial_equipo(request,pk):
+    cursor = connection.cursor()
+    try:
+        cursor.callproc("historial_equipo",[pk])
+        res = cursor.fetchall()
+        print(res)
+    finally:
+        cursor.close()
+    return Response(res)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def historial_cliente(request, pk):
+    cursor = connection.cursor()
+    try:
+        cursor.callproc("historial_cliente",[pk])
+        res = cursor.fetchall()
+        print(res)
+    finally:
+        cursor.close()
+    return Response(res)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def historial_tecnico(request, pk):
+    cursor = connection.cursor()
+    try:
+        cursor.callproc("historial_tecnico",[pk])
+        res = cursor.fetchall()
+        print(res)
+    finally:
+        cursor.close()
+    return Response(res)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def crear_cliente(request):
+    nombre=request.GET['Nombre']
+    email=request.GET['Email']
+    tel=request.GET['Tel']
+    cursor = connection.cursor()
+    try:
+        cursor.callproc("insert_cliente",[nombre,email,tel])
+        res = cursor.fetchall()
+        print(res)
+    finally:
+        cursor.close()
+    return Response(res)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def crear_equipo(request):
+    marca=request.GET['Marca']
+    modelo=request.GET['Modelo']
+    sn=request.GET['SN']
+    cursor = connection.cursor()
+    try:
+        cursor.callproc("insert_equipo",[marca, modelo, sn])
+        res = cursor.fetchall()
+        print(res)
+    finally:
+        cursor.close()
+    return Response(res)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def crear_soporte(request):
+    problema =request.GET['Problema']
+    comentarios=request.GET['Comentarios']
+    tecnico_id=request.GET['Tecnico_id']
+    equipo_id=request.GET['Equipo_id']
+    cliente_id=request.GET['Cliente_id']
+
+    cursor = connection.cursor()
+    try:
+        cursor.callproc("crear_soporte", [problema, comentarios, tecnico_id, equipo_id, cliente_id])
+        res = cursor.fetchall()
+        print(res)
+    finally:
+        cursor.close()
+    return Response(res)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def cerrar_soporte(request,pk):
+    cierre = request.GET['Cierre']
+    cursor = connection.cursor()
+    try:
+        cursor.callproc("cerrar_soporte", [pk, cierre])
+        res = cursor.fetchall()
+        print(res)
+    finally:
+        cursor.close()
+    return Response(res)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def act_cliente(request,pk):
+    nombre=request.GET['Nombre']
+    email=request.GET['Email']
+    tel=request.GET['Tel']
+    cursor = connection.cursor()
+    try:
+        cursor.callproc("act_cliente", [pk, nombre, email, tel])
+        res = cursor.fetchall()
+        print(res)
+    except OperationalError as e:
+        return Response([str(e)])
+
+    finally:
+        cursor.close()
+    return Response(res)
 
 class Index(LoginRequiredMixin, generic.TemplateView):
     template_name = "ini.html"

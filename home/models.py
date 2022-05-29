@@ -25,9 +25,11 @@ class Soporte(models.Model):
     Soporte_Tecnico = models.ForeignKey(User, on_delete=models.CASCADE)
     Soporte_Problema = models.CharField(max_length=30)
     Soporte_Comentarios = models.CharField(max_length=30)
-    Soporte_Inicio = models.TimeField()
-    Soporte_Final = models.TimeField()
-    Soporte_Solucionado = models.BooleanField(default=True)
+    Soporte_Inicio = models.DateTimeField(null=True)
+    Soporte_Final = models.DateTimeField(null=True)
+    Soporte_Comentarios_Cierre = models.CharField(max_length=30, default=None)
+    Soporte_Solucionado = models.BooleanField(default=False)
+    Soporte_Cancelado = models.BooleanField(default=False)
 
     def __str__(self):
         return "{}".format(self.Soporte_Problema)

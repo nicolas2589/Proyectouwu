@@ -40,5 +40,13 @@ urlpatterns = [
     path('versoporte/', views.VerSoporte.as_view(), name='verS'),
     path('modificarsoporte/<int:pk>/', views.ModificarSoporte.as_view(), name='modificarS'),
     path('eliminarsoporte/<int:pk>/', views.EliminarSoporte.as_view(), name='eliminarS'),
-
+    #Apis
+    path('historial_equipo/<int:pk>', views.historial_equipo, name="he"),
+    path('historial_cliente/<int:pk>', views.historial_cliente, name="hc"),
+    path('historial_tecnico/<int:pk>', views.historial_tecnico, name="ht"),
+    path('crear_cliente/', views.crear_cliente, name="cc"),
+    path('crear_equipo/', views.crear_equipo, name="ce"),
+    path('crear_soporte/', views.crear_soporte, name="cs"),
+    path('cerrar_soporte/<int:pk>', views.cerrar_soporte, name="cs"),
+    path('act_cliente/<int:pk>', views.act_cliente, name="cs"),
 ]
